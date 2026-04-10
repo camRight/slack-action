@@ -25,7 +25,6 @@ slack_notification:
       with:
         slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
         slack-channel: ${{ secrets.SLACK_CHANNEL_ID }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
 
         # Optional
         send-success-message: "false"
