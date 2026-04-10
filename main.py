@@ -7,20 +7,20 @@ import requests
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
-SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
-SLACK_CHANNEL = os.environ["SLACK_CHANNEL"]
-GITHUB_TOKEN = os.environ["GITHUB_TOKEN"]
-REPO_OWNER = os.environ["REPO_OWNER"]
-REPO_NAME = os.environ["REPO_NAME"]
-RUN_ID = os.environ["RUN_ID"]
-SEND_SUCCESS_MESSAGE = os.environ.get("SEND_SUCCESS_MESSAGE", "false").lower() == "true"
+SLACK_BOT_TOKEN = os.environ["INPUT_SLACK_BOT_TOKEN"]
+SLACK_CHANNEL = os.environ["INPUT_SLACK_CHANNEL"]
+GITHUB_TOKEN = os.environ["INPUT_GITHUB_TOKEN"]
+REPO_OWNER = os.environ["GITHUB_REPOSITORY"].split("/")[0]
+REPO_NAME = os.environ["GITHUB_REPOSITORY"].split("/")[1]
+RUN_ID = os.environ["GITHUB_RUN_ID"]
+SEND_SUCCESS_MESSAGE = os.environ.get("INPUT_SEND_SUCCESS_MESSAGE", "false").lower() == "true"
 
 # New optional behavior flags
-THREAD_BY_PR = os.environ.get("THREAD_BY_PR", "true").lower() == "true"
-NOTIFY_PR_AUTHOR = os.environ.get("NOTIFY_PR_AUTHOR", "true").lower() == "true"
+THREAD_BY_PR = os.environ.get("INPUT_THREAD_BY_PR", "true").lower() == "true"
+NOTIFY_PR_AUTHOR = os.environ.get("INPUT_NOTIFY_PR_AUTHOR", "true").lower() == "true"
 
 # Optional JSON mapping: {"githublogin":"U12345678"}
-GITHUB_TO_SLACK_MAP = os.environ.get("GITHUB_TO_SLACK_MAP", "{}")
+GITHUB_TO_SLACK_MAP = os.environ.get("INPUT_GITHUB_TO_SLACK_MAP", "{}")
 
 client = WebClient(token=SLACK_BOT_TOKEN)
 
