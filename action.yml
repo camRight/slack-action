@@ -1,19 +1,43 @@
 name: "GitHub Actions Notifier for Slack"
-description: "Send a Slack notification when a failed build becomes green again"
+description: "Send Slack notifications for workflow failures and recoveries, with optional PR author lookup and threading"
 author: "Roham Mosalli"
 branding:
   icon: "message-square"
   color: "green"
+
 inputs:
   slack-channel:
-    description: "Slack channel to send notifications"
+    description: "Slack channel ID to send notifications"
     required: true
+
   github-token:
     description: "GitHub token to access the API"
     required: true
+
   slack-bot-token:
     description: "Slack bot token to send messages"
     required: true
+
+  send-success-message:
+    description: "Send a success message when a failed workflow becomes green again"
+    required: false
+    default: "false"
+
+  thread-by-pr:
+    description: "If true, create/reuse a single Slack thread per PR"
+    required: false
+    default: "true"
+
+  notify-pr-author:
+    description: "If true, include the PR author in the Slack message"
+    required: false
+    default: "true"
+
+  github-to-slack-map:
+    description: 'Optional JSON mapping of GitHub logins to Slack user IDs, e.g. {"cwright":"U12345678"}'
+    required: false
+    default: "{}"
+
 runs:
   using: "docker"
-  image: "docker://rohammosalli/slack-action:v2.1.0"
+  image: "Dockerfile"

@@ -1,6 +1,6 @@
-# Custom GitHub Action for Slack Notification:
+# Slack Notifier GitHub Action
 
-Custom GitHub Action for Slack Notification: Sends Slack notifications when failed build jobs become green again
+A custom GitHub Action that sends Slack notifications for workflow failures and recoveries — with optional PR author lookup and threaded messaging to avoid channel spam.
  
  ### features
 1. Connects to the GitHub API to fetch information about workflow runs and jobs.
@@ -15,23 +15,23 @@ Custom GitHub Action for Slack Notification: Sends Slack notifications when fail
 
 ```yaml
 slack_notification:
-    needs: [first-job, second-job]
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout codee
-        uses: actions/checkout@v3
-      - name: Run Slack Notification
-        uses: rohammosalli/slack-action@master
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.MY_SLACK_TOKEN }}
-          SLACK_CHANNEL: "Your Channel"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-          RUN_ID: ${{ github.run_id }}
-          SEND_SUCCESS_MESSAGE: "true"
+  needs: [test, merge-reports]
+  if: ${{ always() && (needs.test.result == 'failure' || needs.merge-reports.result == 'failure') }}
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Notify Slack
+      uses: your-org/slack-action@v1
+      with:
+        slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
+        slack-channel: ${{ secrets.SLACK_CHANNEL_ID }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+        # Optional
+        send-success-message: "false"
+        thread-by-pr: "true"
+        notify-pr-author: "true"
+        github-to-slack-map: ${{ secrets.GITHUB_TO_SLACK_MAP }}
 ```
 
 To disable the sending of Slack messages upon successful completion, simply set the environment variable SEND_SUCCESS_MESSAGE to 'false'. 
