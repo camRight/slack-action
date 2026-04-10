@@ -21,7 +21,7 @@ slack_notification:
 
   steps:
     - name: Notify Slack
-      uses: your-org/slack-action@v1
+      uses: camRight/slack-action@v1
       with:
         slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
         slack-channel: ${{ secrets.SLACK_CHANNEL_ID }}
