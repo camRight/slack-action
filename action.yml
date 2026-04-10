@@ -1,4 +1,4 @@
-name: "GitHub Actions Notifier for Slack"
+name: "Threaded GitHub Actions Notifier for Slack"
 description: "Send Slack notifications for workflow failures and recoveries, with optional PR author lookup and threading"
 author: "Roham Mosalli"
 branding:
